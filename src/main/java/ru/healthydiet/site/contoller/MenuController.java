@@ -17,7 +17,6 @@ import java.util.List;
 public class MenuController {
 
     private final ProductServiceImpl productServiceImpl;
-    private final ObjectMapper objectMapper;
 
     @PostMapping("/api/add")
     public void addProduct(@RequestBody ProductDTO productDTO) {
