@@ -1,12 +1,13 @@
-package ru.healthydiet.site.model;
+package ru.healthydiet.site.model.products;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import ru.healthydiet.site.model.dishes.Dish;
 
 @Entity
 @Table
@@ -30,6 +31,10 @@ public class Product {
     @JsonManagedReference
     @JsonProperty("product_content")
     ProductContent productContent;
+
+    @ManyToOne
+    @JsonIgnore
+    Dish dish;
 
     @Override
     public String toString() {

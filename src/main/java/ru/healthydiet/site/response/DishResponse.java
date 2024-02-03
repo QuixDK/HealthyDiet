@@ -4,18 +4,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import ru.healthydiet.site.model.dishes.Dish;
 import ru.healthydiet.site.model.products.Product;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-@JsonPropertyOrder({"product"})
-public class ProductResponse {
+@JsonPropertyOrder({"dish", "products"})
+public class DishResponse {
 
-    @JsonProperty("product")
-    Product product;
+    @JsonProperty("dish")
+    Dish dish;
+
     String message;
     int status;
 }

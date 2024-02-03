@@ -1,15 +1,13 @@
-package ru.healthydiet.site.service;
+package ru.healthydiet.site.service.products;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.healthydiet.site.DTO.ProductDTO;
-import ru.healthydiet.site.model.Product;
-import ru.healthydiet.site.model.ProductContent;
-import ru.healthydiet.site.repository.ProductRepo;
+import ru.healthydiet.site.dto.ProductDto;
+import ru.healthydiet.site.model.products.Product;
+import ru.healthydiet.site.model.products.ProductContent;
+import ru.healthydiet.site.repository.ProductRepository;
 import ru.healthydiet.site.response.ProductResponse;
 
 import java.util.List;
@@ -20,9 +18,9 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private final ProductRepo productRepo;
+    private final ProductRepository productRepository;
 
-    public ProductResponse saveNewProduct(ProductDTO productDTO) {
+    public ProductResponse createProduct(ProductDto productDTO) {
         Product product = Product.builder()
                 .name(productDTO.getName())
                 .productContent(ProductContent.builder()
@@ -45,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
                         .vitaminE(productDTO.getVitaminE())
                         .build())
                 .build();
-        log.info("Add new product: " + productRepo.save(product));
+        log.info("Add new product: " + productRepository.save(product));
         return ProductResponse.builder()
                 .product(product)
                 .message("Success created Product")
@@ -54,14 +52,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public ProductResponse getProductById(Integer id) {
-        if (!productRepo.existsById(id)) {
+        if (!productRepository.existsById(id)) {
             return ProductResponse.builder()
                     .product(null)
                     .message("No such product")
                     .status(404)
                     .build();
         }
-        Product product = productRepo.findById(id).get();
+        Product product = productRepository.findById(id).get();
         return ProductResponse.builder()
                 .product(product)
                 .message("Success created Product")
@@ -70,18 +68,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public List<Product> getAllProducts() {
-        return productRepo.findAll();
+        return productRepository.findAll();
     }
 
     public ProductResponse deleteProductById(Integer id) {
-        if (!productRepo.existsById(id)) {
+        if (!productRepository.existsById(id)) {
             return ProductResponse.builder()
                     .product(null)
                     .message("No such product")
                     .status(404)
                     .build();
         }
-        productRepo.deleteById(id);
+        productRepository.deleteById(id);
         log.info("Delete product with id: " + id);
         return ProductResponse.builder()
                 .product(null)
@@ -91,14 +89,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public ProductResponse updateProduct(Product product) {
-        if (!productRepo.existsById(product.getId())) {
+        if (!productRepository.existsById(product.getId())) {
             return ProductResponse.builder()
                     .product(null)
                     .message("No such product")
                     .status(404)
                     .build();
         }
-        log.info("Update product: " + productRepo.save(product));
+        log.info("Update product: " + productRepository.save(product));
         return ProductResponse.builder()
                 .product(product)
                 .message("Success updated product")

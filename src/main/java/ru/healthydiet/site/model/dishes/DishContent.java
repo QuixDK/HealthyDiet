@@ -1,28 +1,31 @@
-package ru.healthydiet.site.model;
+package ru.healthydiet.site.model.dishes;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import ru.healthydiet.site.model.products.Product;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@AllArgsConstructor @NoArgsConstructor
-@Getter@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Builder
 @Entity
-@Table(name = "product_content")
-public class ProductContent {
+@Table(name = "dish_content")
+public class DishContent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_content_id")
+    @Column(name = "dish_content_id")
     @JsonIgnore
     int id;
 
-    @OneToOne(mappedBy = "productContent", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "dishContent", cascade = CascadeType.ALL)
     @JsonBackReference
-    Product product;
+    Dish dish;
 
     long calories;
     long proteins;
