@@ -14,34 +14,39 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/product")
 public class MenuController {
 
     private final ProductServiceImpl productServiceImpl;
+    private final ObjectMapper objectMapper;
 
-    @PostMapping("/api/add")
-    public void addProduct(@RequestBody ProductDTO productDTO) {
-        productServiceImpl.saveNewProduct(productDTO);
+    @SneakyThrows
+    @PostMapping("/")
+    public String createProduct(@RequestBody ProductDTO productDTO) {
+        return objectMapper.writeValueAsString(productServiceImpl.saveNewProduct(productDTO));
     }
 
     @SneakyThrows
-    @GetMapping("/api/getProductContent")
-    public String getProductContent(@RequestParam Integer id)
-    {
-        return productServiceImpl.getProductContentById(id);
+    @GetMapping("/")
+    public String getProduct(@RequestParam Integer id) {
+        return objectMapper.writeValueAsString(productServiceImpl.getProductById(id));
     }
 
-    @GetMapping("/api/getAll")
-    public List<Product> getAllProducts() {
-        return productServiceImpl.getAllProducts();
+    @SneakyThrows
+    @GetMapping("/")
+    public String getAllProducts() {
+        return objectMapper.writeValueAsString(productServiceImpl.getAllProducts());
     }
 
-    @DeleteMapping("/api/delete")
+    @SneakyThrows
+    @DeleteMapping("/")
     public String deleteProduct(@RequestParam Integer id) {
-        return productServiceImpl.deleteProductById(id);
+        return objectMapper.writeValueAsString(productServiceImpl.deleteProductById(id));
     }
 
-    @PutMapping("/api/update")
+    @SneakyThrows
+    @PutMapping("/")
     public String updateProduct(@RequestBody Product product) {
-        return productServiceImpl.updateProduct(product);
+        return objectMapper.writeValueAsString(productServiceImpl.updateProduct(product));
     }
 }

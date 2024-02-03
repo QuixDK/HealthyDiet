@@ -1,5 +1,6 @@
 package ru.healthydiet.site.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -17,9 +18,11 @@ public class ProductContent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_content_id")
+    @JsonIgnore
     int id;
 
     @OneToOne(mappedBy = "productContent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     Product product;
 
     long calories;

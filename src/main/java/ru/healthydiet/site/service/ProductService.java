@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface ProductService {
 
-    void saveNewProduct(ProductDTO productDTO);
-    String getProductContentById(Integer id);
+    String saveNewProduct(ProductDTO productDTO);
+    String getProductById(Integer id);
     List<Product> getAllProducts();
     String deleteProductById(Integer id);
 }

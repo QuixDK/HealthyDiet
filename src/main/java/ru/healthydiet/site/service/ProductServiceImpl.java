@@ -21,7 +21,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private final ProductRepo productRepo;
 
-    public void saveNewProduct(ProductDTO productDTO) {
+    public String saveNewProduct(ProductDTO productDTO) {
         log.info(
                 "Add new product: " + productRepo.save(
                         Product.builder()
@@ -47,13 +47,14 @@ public class ProductServiceImpl implements ProductService {
                                         .build())
                                 .build())
         );
+        return "";
     }
 
-    public String getProductContentById(Integer id) {
+    public String getProductById (Integer id) {
         if (!productRepo.existsById(id)) {
             return "No such product";
         }
-        return productRepo.findById(id).get().getProductContent().toString();
+        return productRepo.findById(id).get().toString();
     }
 
     public List<Product> getAllProducts() {
