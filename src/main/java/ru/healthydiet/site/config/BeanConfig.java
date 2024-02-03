@@ -1,11 +1,13 @@
 package ru.healthydiet.site.config;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@org.springframework.context.annotation.Configuration
-public class Configuration {
+@Configuration
+public class BeanConfig {
 
     @Bean
     public ObjectMapper objectMapper() {

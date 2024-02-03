@@ -3,6 +3,7 @@ package ru.healthydiet.site.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -13,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
+@JsonPropertyOrder({"product_id", "product"})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +25,10 @@ public class Product {
     @JsonProperty("product")
     String name;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_content_id")
     @JsonManagedReference
+    @JsonProperty("product_content")
     ProductContent productContent;
 
     @Override

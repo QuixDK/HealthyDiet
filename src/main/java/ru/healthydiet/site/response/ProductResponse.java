@@ -1,20 +1,21 @@
 package ru.healthydiet.site.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AccessLevel;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import ru.healthydiet.site.model.Product;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
+@JsonPropertyOrder({"product"})
 public class ProductResponse {
 
-    @JsonProperty("product_id")
-    int id;
-
     @JsonProperty("product")
-    String name;
-
-    @JsonProperty
+    Product product;
     String message;
+    int status;
 }

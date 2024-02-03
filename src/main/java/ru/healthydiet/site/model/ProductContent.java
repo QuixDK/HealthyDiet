@@ -2,7 +2,6 @@ package ru.healthydiet.site.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,7 +20,7 @@ public class ProductContent {
     @JsonIgnore
     int id;
 
-    @OneToOne(mappedBy = "productContent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "productContent", cascade = CascadeType.ALL)
     @JsonBackReference
     Product product;
 

@@ -10,6 +10,7 @@ import ru.healthydiet.site.DTO.ProductDTO;
 import ru.healthydiet.site.model.Product;
 import ru.healthydiet.site.model.ProductContent;
 import ru.healthydiet.site.repository.ProductRepo;
+import ru.healthydiet.site.response.ProductResponse;
 
 import java.util.List;
 
@@ -21,60 +22,87 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private final ProductRepo productRepo;
 
-    public String saveNewProduct(ProductDTO productDTO) {
-        log.info(
-                "Add new product: " + productRepo.save(
-                        Product.builder()
-                                .name(productDTO.getName())
-                                .productContent(ProductContent.builder()
-                                        .calories(productDTO.getCalories())
-                                        .proteins(productDTO.getProteins())
-                                        .fats(productDTO.getFats())
-                                        .carbohydrates(productDTO.getCarbohydrates())
-                                        .fibers(productDTO.getFibers())
-                                        .sugar(productDTO.getSugar())
-                                        .sodium(productDTO.getSodium())
-                                        .cuprum(productDTO.getCuprum())
-                                        .iron(productDTO.getIron())
-                                        .folate(productDTO.getFolate())
-                                        .potassium(productDTO.getPotassium())
-                                        .magnesium(productDTO.getMagnesium())
-                                        .thiamine(productDTO.getThiamine())
-                                        .riboflavin(productDTO.getRiboflavin())
-                                        .vitaminB6(productDTO.getVitaminB6())
-                                        .vitaminC(productDTO.getVitaminC())
-                                        .vitaminE(productDTO.getVitaminE())
-                                        .build())
-                                .build())
-        );
-        return "";
+    public ProductResponse saveNewProduct(ProductDTO productDTO) {
+        Product product = Product.builder()
+                .name(productDTO.getName())
+                .productContent(ProductContent.builder()
+                        .calories(productDTO.getCalories())
+                        .proteins(productDTO.getProteins())
+                        .fats(productDTO.getFats())
+                        .carbohydrates(productDTO.getCarbohydrates())
+                        .fibers(productDTO.getFibers())
+                        .sugar(productDTO.getSugar())
+                        .sodium(productDTO.getSodium())
+                        .cuprum(productDTO.getCuprum())
+                        .iron(productDTO.getIron())
+                        .folate(productDTO.getFolate())
+                        .potassium(productDTO.getPotassium())
+                        .magnesium(productDTO.getMagnesium())
+                        .thiamine(productDTO.getThiamine())
+                        .riboflavin(productDTO.getRiboflavin())
+                        .vitaminB6(productDTO.getVitaminB6())
+                        .vitaminC(productDTO.getVitaminC())
+                        .vitaminE(productDTO.getVitaminE())
+                        .build())
+                .build();
+        log.info("Add new product: " + productRepo.save(product));
+        return ProductResponse.builder()
+                .product(product)
+                .message("Success created Product")
+                .status(200)
+                .build();
     }
 
-    public String getProductById (Integer id) {
+    public ProductResponse getProductById(Integer id) {
         if (!productRepo.existsById(id)) {
-            return "No such product";
+            return ProductResponse.builder()
+                    .product(null)
+                    .message("No such product")
+                    .status(404)
+                    .build();
         }
-        return productRepo.findById(id).get().toString();
+        Product product = productRepo.findById(id).get();
+        return ProductResponse.builder()
+                .product(product)
+                .message("Success created Product")
+                .status(200)
+                .build();
     }
 
     public List<Product> getAllProducts() {
         return productRepo.findAll();
     }
 
-    public String deleteProductById(Integer id) {
+    public ProductResponse deleteProductById(Integer id) {
         if (!productRepo.existsById(id)) {
-            return "No such product";
+            return ProductResponse.builder()
+                    .product(null)
+                    .message("No such product")
+                    .status(404)
+                    .build();
         }
         productRepo.deleteById(id);
         log.info("Delete product with id: " + id);
-        return "Delete product with id: " + id;
+        return ProductResponse.builder()
+                .product(null)
+                .message("Delete product with id: " + id)
+                .status(200)
+                .build();
     }
 
-    public String updateProduct(Product product) {
+    public ProductResponse updateProduct(Product product) {
         if (!productRepo.existsById(product.getId())) {
-            return "No such product";
+            return ProductResponse.builder()
+                    .product(null)
+                    .message("No such product")
+                    .status(404)
+                    .build();
         }
         log.info("Update product: " + productRepo.save(product));
-        return "Update product: " + productRepo.findById(product.getId());
+        return ProductResponse.builder()
+                .product(product)
+                .message("Success updated product")
+                .status(200)
+                .build();
     }
 }
